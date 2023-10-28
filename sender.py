@@ -1,4 +1,5 @@
 import psycopg2
+import random
 
 def connectToDB(ip :str):
     conn = psycopg2.connect(
@@ -11,3 +12,16 @@ servers = open("databases.txt").readlines()
 serverCursors = []
 for server in servers:
     serverCursors.append(connectToDB(server))
+
+
+print("Enter something to add to server: ", end = '')
+while True:
+    sql = """INSERT INTO async_messages(message)
+            VALUES(%s);"""
+    s = input()
+    if s.lower() == 'exit':
+        break 
+    ind = random.randint(0, len(serverCursors)-1)
+    serverCursors[ind].execute(sql, (s, ))
+    print(serverCursors[ind].fetchone())
+    print("Enter something to add to server: ", end = '')
