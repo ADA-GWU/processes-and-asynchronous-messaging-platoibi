@@ -6,8 +6,13 @@ During the installation and running process, if you have multiple instances of p
 To use the program, you will need to install the psycopg2 and threading libraries. You can do this with the following command:
 
 ```
-pip install psycopg2 threading
+pip install psycopg2
 ```
+```
+pip install threading
+```
+
+#### Note: you need to have postgres in order to install psycopg2
 
 # Usage
 Fill the ```databases.txt``` file with ip's of databases.
