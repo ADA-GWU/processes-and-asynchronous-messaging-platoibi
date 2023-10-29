@@ -28,5 +28,4 @@ while True:
     serverCursors[ind].execute(sql, (s, 'ibrahim'))
     serverConnections[ind].commit()
     print("sent to server", ind)
-    # print(serverCursors[ind].fetchone())
     print("Enter something to add to server: ", end = '')

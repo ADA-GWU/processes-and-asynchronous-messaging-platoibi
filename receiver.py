@@ -9,7 +9,7 @@ def receiveData(ip: str):
         database="hw1", user='dist_user', password='dist_pass_123', host=ip, port= '5432'
     )
     cursor = connection.cursor()
-    for i in range(3):
+    for i in range(100):
         selectSQL = """SELECT * FROM async_messages WHERE received_time is null limit 1 for update"""
         cursor.execute(selectSQL)
         f = cursor.fetchone()
@@ -23,7 +23,7 @@ def receiveData(ip: str):
                 cursor.execute(updateSQL, (f[0],))
             connection.commit()
         q.put(False)
-        time.sleep(3)
+        time.sleep(1)
         q.get()
         q.put(True)
 
