@@ -8,6 +8,7 @@ def receiveData(ip: str):
     connection = psycopg2.connect(
         database="hw1", user='dist_user', password='dist_pass_123', host=ip, port= '5432'
     )
+    print("Connected to:", ip)
     cursor = connection.cursor()
     for i in range(100):
         selectSQL = """SELECT * FROM async_messages WHERE received_time is null limit 1 for update"""
@@ -39,7 +40,6 @@ for server in servers:
     t.start()
     threadlist.append(t)
 
-time.sleep(20)
 for thread in threadlist:
     thread.join()
 
