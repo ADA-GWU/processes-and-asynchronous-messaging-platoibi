@@ -9,13 +9,13 @@ def receiveData(ip: str):
         database="hw1", user='dist_user', password='dist_pass_123', host=ip, port= '5432'
     )
     cursor = connection.cursor()
-    for i in range(20):
+    for i in range(3):
         selectSQL = """SELECT * FROM async_messages WHERE received_time is null limit 1 for update"""
         cursor.execute(selectSQL)
         f = cursor.fetchone()
         x = q.get()
         if f is not None and x is True:
-            print(f)
+            print("Sender {} sent {} at time {} to server {}".format(f[1], f[2], f[3], ip))
             updateSQL = """UPDATE async_messages
                         SET received_time = CURRENT_TIMESTAMP
                         WHERE record_id = %s"""

@@ -12,7 +12,7 @@ servers = open("databases.txt").readlines()
 serverCursors = []
 serverConnections = []
 for server in servers:
-    cur, conn = connectToDB(server)
+    cur, conn = connectToDB(server.strip())
     serverCursors.append(cur)
     serverConnections.append(conn)
 
@@ -27,5 +27,6 @@ while True:
     ind = random.randint(0, len(serverCursors)-1)
     serverCursors[ind].execute(sql, (s, 'ibrahim'))
     serverConnections[ind].commit()
+    print("sent to server", ind)
     # print(serverCursors[ind].fetchone())
     print("Enter something to add to server: ", end = '')
