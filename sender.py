@@ -6,22 +6,26 @@ def connectToDB(ip :str):
         database="hw1", user='dist_user', password='dist_pass_123', host=ip, port= '5432'
     )
     cur = conn.cursor()
-    return cur
+    return (cur, conn)
 
 servers = open("databases.txt").readlines()
 serverCursors = []
+serverConnections = []
 for server in servers:
-    serverCursors.append(connectToDB(server))
+    cur, conn = connectToDB(server)
+    serverCursors.append(cur)
+    serverConnections.append(conn)
 
 
 print("Enter something to add to server: ", end = '')
 while True:
-    sql = """INSERT INTO async_messages(message)
-            VALUES(%s);"""
+    sql = """INSERT INTO async_messages(message, sender_name)
+            VALUES(%s, %s);"""
     s = input()
     if s.lower() == 'exit':
         break 
     ind = random.randint(0, len(serverCursors)-1)
-    serverCursors[ind].execute(sql, (s, ))
-    print(serverCursors[ind].fetchone())
+    serverCursors[ind].execute(sql, (s, 'ibrahim'))
+    serverConnections[ind].commit()
+    # print(serverCursors[ind].fetchone())
     print("Enter something to add to server: ", end = '')
